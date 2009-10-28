@@ -433,15 +433,30 @@ namespace NHibernate.Search.Impl
     	public ICriteria CreateCriteria(string entityName, string alias)
 		{
 			return session.CreateCriteria(entityName, alias);
-    	}
+		}
+
 #endif
+		public IQueryOver<T> QueryOver<T>() where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public IQueryOver<T> QueryOver<T>(System.Linq.Expressions.Expression<System.Func<T>> alias) where T : class
+		{
+			throw new NotImplementedException();
+		}
 
     	public IQuery CreateQuery(string queryString)
         {
             return session.CreateQuery(queryString);
         }
 
-        public IQuery CreateFilter(object collection, string queryString)
+    	public IQuery CreateQuery(IQueryExpression queryExpression)
+    	{
+    		throw new NotImplementedException();
+    	}
+
+    	public IQuery CreateFilter(object collection, string queryString)
         {
             return session.CreateFilter(collection, queryString);
         }
