@@ -14,6 +14,8 @@
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>NHibernate.Search.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -202,6 +204,7 @@
     <None Include="Cfg\nhs-configuration.xsx">
       <DependentUpon>nhs-configuration.xsd</DependentUpon>
     </None>
+    <None Include="NHibernate.Search.snk" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
