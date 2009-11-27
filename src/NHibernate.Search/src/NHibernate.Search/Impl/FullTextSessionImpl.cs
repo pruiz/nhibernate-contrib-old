@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Linq;
+using System.Linq.Expressions;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.QueryParsers;
 using NHibernate.Engine;
@@ -433,9 +435,14 @@ namespace NHibernate.Search.Impl
     	public ICriteria CreateCriteria(string entityName, string alias)
 		{
 			return session.CreateCriteria(entityName, alias);
-		}
-
+    	}
 #endif
+
+    	public IQueryable<T> Query<T>()
+    	{
+    		return session.Query<T>();
+    	}
+
 		public IQueryOver<T> QueryOver<T>() where T : class
 		{
 			throw new NotImplementedException();
