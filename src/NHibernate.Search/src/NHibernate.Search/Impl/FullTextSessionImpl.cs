@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Linq;
+using System.Linq.Expressions;
 using Lucene.Net.Analysis.Standard;
 using Lucene.Net.QueryParsers;
 using NHibernate.Engine;
@@ -436,12 +438,32 @@ namespace NHibernate.Search.Impl
     	}
 #endif
 
+    	public IQueryable<T> Query<T>()
+    	{
+    		return session.Query<T>();
+    	}
+
+		public IQueryOver<T> QueryOver<T>() where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public IQueryOver<T> QueryOver<T>(System.Linq.Expressions.Expression<System.Func<T>> alias) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
     	public IQuery CreateQuery(string queryString)
         {
             return session.CreateQuery(queryString);
         }
 
-        public IQuery CreateFilter(object collection, string queryString)
+    	public IQuery CreateQuery(IQueryExpression queryExpression)
+    	{
+    		throw new NotImplementedException();
+    	}
+
+    	public IQuery CreateFilter(object collection, string queryString)
         {
             return session.CreateFilter(collection, queryString);
         }
