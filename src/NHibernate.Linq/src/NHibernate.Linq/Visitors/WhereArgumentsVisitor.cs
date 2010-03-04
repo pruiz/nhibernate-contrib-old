@@ -336,9 +336,10 @@ namespace NHibernate.Linq.Visitors
 
 		private ICriterion GetLikeCriteria(MethodCallExpression expr, MatchMode matchMode)
 		{
-			return Restrictions.Like(MemberNameVisitor.GetMemberName(rootCriteria, expr.Object),
-									 String.Format("{0}", QueryUtil.GetExpressionValue(expr.Arguments[0])),
-									 matchMode);
+			var member = MemberNameVisitor.GetMemberName(rootCriteria, expr.Object);
+			var val = String.Format("{0}", QueryUtil.GetExpressionValue(expr.Arguments[0]));
+			val = val.Replace(@"\", @"\\").Replace("%", @"\%").Replace("_", @"\_");
+			return Restrictions.Like(member, val, matchMode, '\\');
 		}
 
 		private ICriterion GetCollectionContainsCriteria(CollectionAccessExpression arg, Expression containsExpression)

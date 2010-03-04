@@ -296,6 +296,24 @@ namespace NHibernate.Linq.Tests
 		}
 
 		[Test]
+		public void UsersWithStringContainsWithWildcard()
+		{
+			var query = (from user in session.Linq<User>()
+						 where user.Name.Contains("%yend")
+						 select user).ToList();
+			Assert.AreEqual(0, query.Count);
+		}
+
+		[Test]
+		public void UsersWithStringContainsWithUnderscore()
+		{
+			var query = (from user in session.Linq<User>()
+						 where user.Name.Contains("_yend")
+						 select user).ToList();
+			Assert.AreEqual(0, query.Count);
+		}
+
+		[Test]
 		public void UsersWithArrayContains()
 		{
 			var names = new string[] { "ayende", "rahien" };
