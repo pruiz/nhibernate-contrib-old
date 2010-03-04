@@ -32,7 +32,19 @@ namespace NHibernate.Linq.Util
 			if (transformer != null)
 				criteria.SetResultTransformer(transformer);
 			else
-				criteria.SetResultTransformer(new RootEntityResultTransformer());
+			{
+				SetEntityResultTransformer(criteria);
+			}
+		}
+
+		private static void SetEntityResultTransformer(ICriteria criteria)
+		{
+			var criteriaImpl = criteria as CriteriaImpl;
+			if (criteriaImpl != null && criteriaImpl.ResultTransformer is DistinctRootEntityResultTransformer)
+			{
+				return;
+			}
+			criteria.SetResultTransformer(new RootEntityResultTransformer());
 		}
 
 		public static void Add(this ICriteria criteria, IEnumerable<ICriterion> criterion)
