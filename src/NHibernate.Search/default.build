@@ -19,6 +19,7 @@
 		<mkdir dir="${folders.build}"/>
 
 		<csc target="library"
+			 keyfile="${folders.build}/../src/NHibernate.Search/NHibernate.snk"
 			 output="${folders.build}/NHibernate.Search.dll">
 			<nowarn>
 				<warning number="1591" />
