@@ -316,7 +316,12 @@ namespace NHibernate.Linq.Visitors
 
 			if (expr.Arguments.Count > 1)
 			{
-				var arg = (LambdaExpression)LinqUtil.StripQuotes(expr.Arguments[1]);
+				Expression tmp = LinqUtil.StripQuotes(expr.Arguments[1]);
+
+				if (!(tmp is LambdaExpression))
+					throw new NotSupportedException("Any argument must be a lambda expression");
+
+				var arg = tmp as LambdaExpression;
 				string alias = arg.Parameters[0].Name;
 
 				DetachedCriteria subquery = query.CreateCriteria(propertyName, alias);
