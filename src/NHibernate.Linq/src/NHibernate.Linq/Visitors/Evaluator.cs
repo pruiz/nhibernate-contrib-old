@@ -78,13 +78,6 @@ namespace NHibernate.Linq.Visitors
 
 				LambdaExpression lambda = Expression.Lambda(e);
 				Delegate fn = lambda.Compile();
-
-				// If e it's of Expression type.. perform recursive evaluation.
-				if (e.Type.IsSubclassOf(typeof(Expression)))
-				{
-					return Evaluator.PartialEval(fn.DynamicInvoke(null) as Expression);
-				}
-
 				return Expression.Constant(fn.DynamicInvoke(null), e.Type);
 			}
 		}

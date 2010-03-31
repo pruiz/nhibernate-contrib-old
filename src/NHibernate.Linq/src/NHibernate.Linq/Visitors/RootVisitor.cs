@@ -14,8 +14,6 @@ namespace NHibernate.Linq.Visitors
 	/// </summary>
 	public class RootVisitor : NHibernateExpressionVisitor
 	{
-		private static readonly log4net.ILog _Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
 		private readonly ICriteria rootCriteria;
 		private readonly ISession session;
 		private readonly bool isAtRoot;
@@ -115,12 +113,6 @@ namespace NHibernate.Linq.Visitors
 			var visitor = new SelectArgumentsVisitor(rootCriteria, session);
 			visitor.Visit(lambda.Body);
 
-			if (_Log.IsDebugEnabled)
-			{
-				if (visitor.Projection != null)
-					_Log.DebugFormat("Translated projection: {0}", visitor.Projection.ToString());
-			}
-
 			rootCriteria.SetProjectionIfNotNull(visitor.Projection);
 			rootCriteria.SetResultTransformerIfNotNull(visitor.Transformer);
 		}
@@ -216,13 +208,6 @@ namespace NHibernate.Linq.Visitors
 			{
 				var projectionVisitor = new SelectArgumentsVisitor(rootCriteria, session);
 				projectionVisitor.Visit(call);
-
-				if (_Log.IsDebugEnabled)
-				{
-					if (projectionVisitor.Projection != null)
-						_Log.DebugFormat("Translated projection: {0}", projectionVisitor.Projection.ToString());
-				}
-
 				rootCriteria.SetProjection(projectionVisitor.Projection);
 			}
 			else

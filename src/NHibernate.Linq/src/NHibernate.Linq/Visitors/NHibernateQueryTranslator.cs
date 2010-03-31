@@ -1,5 +1,4 @@
-﻿using System;
-using NHibernate.Linq.Expressions;
+﻿using NHibernate.Linq.Expressions;
 using LinqExpression = System.Linq.Expressions.Expression;
 
 namespace NHibernate.Linq.Visitors
@@ -9,8 +8,6 @@ namespace NHibernate.Linq.Visitors
 	/// </summary>
 	public class NHibernateQueryTranslator : NHibernateExpressionVisitor
 	{
-		private static readonly log4net.ILog _Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
 		private readonly ISession session;
 		private readonly string entityName;
 		private ICriteria rootCriteria;
@@ -45,24 +42,11 @@ namespace NHibernate.Linq.Visitors
 
 		private object TranslateInternal(LinqExpression expression)
 		{
-			try
-			{
-				Visit(expression); //ensure criteria
+			Visit(expression); //ensure criteria
 
-				var visitor = new RootVisitor(rootCriteria, session, true);
-				visitor.Visit(expression);
-
-				if (_Log.IsDebugEnabled)
-					_Log.DebugFormat("Translated Criteria: {0}", rootCriteria.ToString());
-				
-				return visitor.Results;
-			}
-			catch (Exception ex)
-			{
-				var tmp = rootCriteria != null ? rootCriteria.ToString() : "{null}";
-				_Log.ErrorFormat("Linq translation failed, current criteria: {0}", tmp);
-				throw;
-			}
+			var visitor = new RootVisitor(rootCriteria, session, true);
+			visitor.Visit(expression);
+			return visitor.Results;
 		}
 
 		protected override LinqExpression VisitQuerySource(QuerySourceExpression expr)
