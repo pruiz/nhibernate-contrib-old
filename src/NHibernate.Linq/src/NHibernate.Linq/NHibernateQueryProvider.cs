@@ -8,6 +8,8 @@ namespace NHibernate.Linq
 {
 	public class NHibernateQueryProvider : QueryProvider
 	{
+		private static readonly log4net.ILog _Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
 		private readonly ISession session;
 		private readonly string entityName;
 		private readonly ICriteria rootCriteria;
@@ -43,6 +45,9 @@ namespace NHibernate.Linq
 
 		public object TranslateExpression(Expression expression)
 		{
+			if (_Log.IsDebugEnabled)
+				_Log.DebugFormat("Translating expression: {0}", expression);
+
 			expression = Evaluator.PartialEval(expression);
 			expression = new BinaryBooleanReducer().Visit(expression);
 			expression = new AssociationVisitor((ISessionFactoryImplementor)session.SessionFactory).Visit(expression);
@@ -50,6 +55,9 @@ namespace NHibernate.Linq
 			expression = CollectionAliasVisitor.AssignCollectionAccessAliases(expression);
 			expression = new PropertyToMethodVisitor().Visit(expression);
 			expression = new BinaryExpressionOrderer().Visit(expression);
+
+			if (_Log.IsDebugEnabled)
+				_Log.DebugFormat("Optimized expression: {0}", expression);
 
 			var translator = new NHibernateQueryTranslator(session, entityName);
 

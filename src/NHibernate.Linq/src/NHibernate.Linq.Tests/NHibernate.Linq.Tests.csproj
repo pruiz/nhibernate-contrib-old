@@ -66,6 +66,7 @@
     <Compile Include="BinaryExpressionOrdererTests.cs" />
     <Compile Include="CategoryAttribute.cs" />
     <Compile Include="CollectionAssert.cs" />
+    <Compile Include="NHLQ67.cs" />
     <Compile Include="DynamicQuery.cs" />
     <Compile Include="Entities\Animal.cs" />
     <Compile Include="Entities\AnotherEntity.cs" />
