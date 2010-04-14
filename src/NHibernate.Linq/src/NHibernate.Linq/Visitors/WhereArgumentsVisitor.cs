@@ -343,8 +343,9 @@ namespace NHibernate.Linq.Visitors
 		{
 			var member = MemberNameVisitor.GetMemberName(rootCriteria, expr.Object);
 			var val = String.Format("{0}", QueryUtil.GetExpressionValue(expr.Arguments[0]));
-			val = val.Replace(@"\", @"\\").Replace("%", @"\%").Replace("_", @"\_");
-			return Restrictions.Like(member, val, matchMode, '\\');
+			// Using '!' as escape instead of '\' to avoid postgresql issues with '\'.. (pruiz)
+			val = val.Replace(@"!", @"!!").Replace("%", @"!%").Replace("_", @"!_");
+			return Restrictions.Like(member, val, matchMode, '!');
 		}
 
 		private ICriterion GetCollectionContainsCriteria(CollectionAccessExpression arg, Expression containsExpression)
